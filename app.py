@@ -1,6 +1,10 @@
 import json
-from flask import Flask
+from flask import Flask, request
+from flask_cors import CORS
+from pkg_resources import require
 app = Flask(__name__)
+CORS(app, resources={r"/.*": {"origins": ["http://localhost:3000","https://news-frontend-g.herokuapp.com/"]}})
+
 
 data = {
     'name' : 'plusoneeeee''',
@@ -11,15 +15,20 @@ data = {
 jsonStr = json.dumps(data, sort_keys=True, indent=1)
 
 @app.route("/")
+def h():
+    name = hello()
+    demo = abc()
+    return "Hi {name}, you are {demo}".format(name=name, demo=demo)
 def hello():
-    return work(2)
-def work(ins):
-    return ins*ins
+    return 'Hello'
+def abc():
+    return 'Woeld'
 
-@app.route("/go", methods=['POST'])
+
+@app.route("/word", methods=['POST'])
 def go():
-    return jsonStr
-
+    print(request.json)
+    return "JSON"+request.json.get('firstName')
 
 @app.route('/testrtt')
 def text():
